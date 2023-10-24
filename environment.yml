@@ -1,0 +1,13 @@
+name: videotrack
+channels:
+  - conda-forge
+dependencies:
+  - ffmpeg
+  - x264
+  - black
+  - imutils
+  - numpy
+  - opencv
+  - pylint
+  - pip: # everything under this, installed by pip
+      - opencv-contrib-python

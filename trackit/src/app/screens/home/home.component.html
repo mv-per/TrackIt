@@ -1,0 +1,18 @@
+<app-video-simulator
+  (onChangeSimulatingStatus)="updateSimulatingStatus($event)"
+></app-video-simulator>
+
+<div class="nav-buttons">
+  <p-button
+    (click)="displaySettingsEditor = !displaySettingsEditor"
+    [disabled]="simulating"
+    icon="pi pi-cog"
+    styleClass="p-button-help"
+  ></p-button>
+</div>
+
+<app-simulation-settings
+  (onSettingsUpdated)="updateSettings($event)"
+  [(displayEditor)]="displaySettingsEditor"
+  (onLogout)="onLogout()"
+></app-simulation-settings>

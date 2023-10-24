@@ -1,0 +1,88 @@
+<div *ngIf="isSimulationDone" class="flex justify-content-center mb-4">
+  {{ currentSimulationStatus }}
+</div>
+<div class="flex flex-row gap-4" *ngIf="simulationSettings$ | async">
+  <div class="flex flex-row">
+    <p-fileUpload
+      mode="basic"
+      [customUpload]="true"
+      [auto]="true"
+      chooseLabel="{{ chooseLabel }}"
+      name="video"
+      accept="image/.avi,.mkv,.mp4"
+      (uploadHandler)="onFileChosen($event)"
+      #fileInput
+      [disabled]="imageSrc != null || isSimulating"
+    ></p-fileUpload>
+    <p-button
+      (click)="deleteFile()"
+      icon="pi pi-trash"
+      styleClass="p-button-danger"
+      [disabled]="!imageSrc || isSimulating"
+      [pTooltip]="deleteVideoTooltip"
+    ></p-button>
+    <ng-template #deleteVideoTooltip>
+      <div>
+        <strong>Removes uploaded video file</strong>
+        <p>Use this button to delete the uploaded file</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <p-button
+    (click)="drawCanvas()"
+    icon="pi pi-external-link"
+    label="Select Object"
+    [disabled]="isSimulating || !imageSrc"
+    [pTooltip]="selectObjectToTrack"
+  ></p-button>
+  <ng-template #selectObjectToTrack>
+    <div>
+      <strong>Select object to be tracked</strong>
+      <p>Opens the dialog to select the object in the video to be tracked</p>
+    </div>
+  </ng-template>
+
+  <p-button
+    *ngIf="rectangle"
+    [disabled]="isSimulating"
+    (click)="simulateVideo()"
+    label="Simulate"
+  ></p-button>
+
+  <p-button
+    *ngIf="isSimulationDone"
+    (click)="downloadVideo()"
+    label="Download"
+    styleClass="p-button-success"
+  ></p-button>
+</div>
+
+<div *ngIf="displayModal" class="canvasDrawing">
+  <canvas
+    #canvas
+    (mousemove)="onGetMousePosition($event)"
+    (click)="onDraw()"
+  ></canvas>
+</div>
+
+<!-- <p-dialog
+  header="Select object to track in the video..."
+  [(visible)]="displayModal"
+  [modal]="true"
+  [style]="{ width: videoWidth, height: videoHeight }"
+> -->
+
+<!-- </p-dialog> -->
+
+<p-dialog
+  [(visible)]="isSimulating"
+  [closable]="false"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+>
+  <div class="flex flex-column gap-2 justify-content-center">
+    <h1 class="flex justify-content-center">{{ currentSimulationStatus }}</h1>
+    <p-progressBar [value]="simulationProgress"></p-progressBar>
+  </div>
+</p-dialog>

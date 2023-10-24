@@ -1,0 +1,17 @@
+﻿<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgroup-inline">
+    <div class="field">
+        <label for="username" class="p-sr-only">Username</label>
+        <input pInputText id="username" formControlName="username" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary" placeholder="Username"/>
+
+    </div>
+
+    <div class="field">
+      <label for="password" class="p-sr-only">Password</label>
+      <p-password id="password" formControlName="password" [feedback]="false" [toggleMask]="true" placeholder="Password"></p-password>
+
+    </div>
+
+    <button pButton type="submit" label="Login" [disabled]="!form.valid"></button>
+  </div>
+</form>

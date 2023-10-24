@@ -1,0 +1,121 @@
+<p-sidebar
+  header="Simulation Settings"
+  [(visible)]="displayEditor"
+  (onHide)="onCloseSettings(false)"
+  position="right"
+  *ngIf="simulationSettings$ | async"
+>
+  <ng-template pTemplate="header"> <h2>Settings</h2></ng-template>
+  <ng-template pTemplate="content">
+    <form [formGroup]="settingsForm">
+      <div class="card flex flex-column gap-1 p-fluid">
+        <h3>Simulation:</h3>
+        <div class="flex flex-row align-items-center">
+          <label class="col-5" for="buffer">Buffer:</label>
+          <p-inputNumber
+            inputId="buffer"
+            [min]="1"
+            [max]="1000"
+            formControlName="buffer"
+            class="col"
+            [pTooltip]="bufferTooltip"
+          >
+          </p-inputNumber>
+          <ng-template #bufferTooltip>
+            <div>
+              <strong>Adjust Buffer Size</strong>
+              <p>
+                Use this field sets the buffer size, which determines the length
+                of the tracking line in the video. A larger buffer size results
+                in a longer tracking line, providing a more extended view of the
+                item's path.
+              </p>
+            </div>
+          </ng-template>
+        </div>
+
+        <div class="flex flex-row align-items-center">
+          <label class="col-5" for="tracker">Tracker:</label>
+          <p-dropdown
+            formControlName="tracker"
+            [options]="trackerOptions"
+            optionLabel="name"
+            optionValue="value"
+            class="col"
+            [pTooltip]="trackerTooltip"
+          ></p-dropdown>
+          <ng-template #trackerTooltip>
+            <div>
+              <strong>Choose Tracker Algorithm</strong>
+              <p>
+                Select the tracker algorithm used by OpenCV to track the object.
+                Your choice will affect the tracking accuracy and performance.
+              </p>
+            </div>
+          </ng-template>
+        </div>
+
+        <h3>Application:</h3>
+
+        <div class="flex flex-row align-items-center">
+          <label class="col-5" for="line-width">Line Width:</label>
+          <div class="col flex-column">
+            <p-slider
+              inputId="line-width"
+              [min]="1"
+              [max]="10"
+              formControlName="lineWidth"
+              [pTooltip]="lineWidthTooltip"
+            >
+            </p-slider>
+            {{ settingsForm.value.lineWidth }}
+          </div>
+
+          <ng-template #lineWidthTooltip>
+            <div>
+              <strong>Line Width</strong>
+              <p>
+                Select the width of the line used for selecting the element to
+                be tracked. A higher value will result in a thicker line.
+              </p>
+            </div>
+          </ng-template>
+        </div>
+
+        <div class="flex flex-row align-items-center">
+          <label class="col-5" for="line-color">Line Color:</label>
+          <p-colorPicker
+            formControlName="lineColor"
+            class="col"
+            [pTooltip]="lineColorTooltip"
+          ></p-colorPicker>
+          <ng-template #lineColorTooltip>
+            <div>
+              <strong>Line Color</strong>
+              <p>
+                Select the color of the line used for selecting the element to
+                be tracked. The chosen color will be applied to the tracking
+                line, making it easily distinguishable.
+              </p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </form>
+    <div class="flex flex-row mt-2 justify-content-end">
+      <p-button
+        label="Save"
+        [disabled]="!formHasChanges"
+        (click)="onSaveSettings()"
+      ></p-button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer" class="flex flex-row justify-content-center">
+    <hr />
+    <p-button
+      (click)="logout()"
+      label="Logout"
+      styleClass="p-button-danger"
+    ></p-button
+  ></ng-template>
+</p-sidebar>

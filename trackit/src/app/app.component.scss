@@ -1,0 +1,12 @@
+.app-body {
+  img {
+    height: 350px;
+  }
+
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap:20px;
+  align-items: center;
+  flex-grow: 1;
+}
